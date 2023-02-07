@@ -1,0 +1,227 @@
+#include <iostream>
+#include <locale.h>
+
+using namespace std;
+
+class Mamifero
+{
+private:
+    string LugNac,Raza;
+    int AnioNac;
+public:
+    Mamifero(string, string, int);
+    void MostrarRaza();
+    void MostrarLugNac();
+    void MostrarAnio();
+
+    friend Mamifero& operator +(Mamifero &p1,Mamifero &p2)
+    {
+        p1.LugNac=p1.LugNac+p2.LugNac;
+        return p1;
+    }
+
+    friend Mamifero& operator >(Mamifero &p1,Mamifero &p2)
+    {
+        p1.Raza=p1.Raza>p2.Raza;
+        return p1;
+    }
+
+    friend Mamifero& operator <(Mamifero &p1,Mamifero &p2)
+    {
+        p1.AnioNac=p1.AnioNac<p2.AnioNac;
+        return p1;
+    }
+
+    friend std::ostream& operator <<(ostream &p1, Mamifero &p2)
+    {
+        p1<<"\nLugar de Nacimiento: "<<p2.LugNac<<endl;
+        p1<<"\nRaza: "<<p2.Raza<<endl;
+        p1<<"\nAño de Nacimiento: "<<p2.AnioNac<<endl;
+        return p1;
+    }
+
+};
+
+
+Mamifero::Mamifero(string _lugarnac, string _raza, int _anionac)
+{
+    LugNac=_lugarnac;
+    Raza=_raza;
+    AnioNac=_anionac;
+}
+
+void Mamifero::MostrarLugNac()
+{
+    cout<<"Lugar de Nacimiento: "<<LugNac<<endl;
+}
+
+void Mamifero::MostrarAnio()
+{
+    cout<<"El año de nacimiento es: "<<AnioNac<<endl;
+}
+
+void Mamifero::MostrarRaza()
+{
+    cout<<"La raza es: "<<Raza<<endl;
+}
+
+
+class Felino : public Mamifero
+{
+private:
+    string Dieta;
+public:
+    Felino(string, string, int, string);
+    void mostrarDieta();
+
+    friend Felino& operator ==(Felino &p1,Felino &p2)
+    {
+        p1.Dieta=p2.Dieta;
+        return p1;
+    }
+
+    friend std::ostream& operator <<(ostream &p1, Felino &p2)
+    {
+        p1<<"\nDieta: "<<p2.Dieta<<endl;
+        return p1;
+    }
+};
+
+Felino::Felino(string _lugarnac, string _raza, int _anionac, string _dieta): Mamifero(_lugarnac,_raza,_anionac)
+{
+    Dieta=_dieta;
+}
+
+void Felino::mostrarDieta()
+{
+    cout<<"La dieta es de: "<<Dieta<<endl;
+}
+
+class GatoDomestico : public Felino
+{
+private:
+    string Pertenencia;
+public:
+    GatoDomestico(string,string,int,string,string);
+    void Cambiarpert(string);
+    void Mostrardu();
+    void Mostrarcir();
+
+    friend GatoDomestico& operator !=(GatoDomestico &p1,GatoDomestico &p2)
+    {
+        p1.Pertenencia!=p2.Pertenencia;
+        return p1;
+    }
+
+    friend std::ostream& operator <<(ostream &p1, GatoDomestico &p2)
+    {
+        p1<<"\nDieta: "<<p2.Pertenencia<<endl;
+        return p1;
+    }
+
+};
+
+
+GatoDomestico::GatoDomestico(string _lugarnac, string _raza, int _anionac, string _dieta, string _pert): Felino(_lugarnac,_raza,_anionac,_dieta)
+{
+    Pertenencia=_pert;
+}
+
+void GatoDomestico::Cambiarpert(string a)
+{
+    Pertenencia=a;
+}
+
+void GatoDomestico::Mostrardu()
+{
+    cout<<"El nuevo dueño de Minino es: "<<Pertenencia<<endl;
+}
+
+void GatoDomestico::Mostrarcir()
+{
+    cout<<"El nuevo circo de Estrella de Circo es: "<<Pertenencia<<endl;
+}
+
+int main()
+{
+setlocale(LC_ALL, "spanish");
+int aux,d;
+string a;
+
+    GatoDomestico Minino("Mexico","Birmano",2015,"Croquetas","Jose Luis");
+    GatoDomestico EstrellaCirco("Alemania","Korat",2018,"Pescado","Circo Katze");
+    do
+    {
+    cout<<"\n1.Dieta\n2.Año y lugar de nacimiento\n3.Cambiar nombre de dueño de minino\n4.Raza\n5.Cambiar el nombre del circo de estrella\n6.Salir\nSelecciona una opcion: ";
+    cin>>aux;
+    switch(aux)
+        {
+    case 1:
+        cout<<"\n1. Minino\n2. Estrella de circo\nElige una opcion: ";
+        cin>>d;
+        if(d==1)
+        {
+            Minino.mostrarDieta();
+        }else if(d==2)
+        {
+            EstrellaCirco.mostrarDieta();
+        }
+        else
+        {
+            cout<<"\nOpcion no valida"<<endl;
+        }
+        break;
+    case 2:
+        cout<<"\n1. Minino\n2. Estrella de circo\nElige una opcion: ";
+        cin>>d;
+        if(d==1)
+        {
+            Minino.MostrarAnio();
+            Minino.MostrarLugNac();
+        }else if(d==2)
+        {
+            EstrellaCirco.MostrarAnio();
+            EstrellaCirco.MostrarLugNac();
+        }
+        else
+        {
+            cout<<"\nOpcion no valida"<<endl;
+        }
+        break;
+    case 3:
+            cout<<"\nEscriba el nuevo dueño de minino: ",164;
+            cin.ignore();
+            getline(cin, a);
+            Minino.Cambiarpert(a);
+            Minino.Mostrardu();
+        break;
+    case 4:
+        cout<<"\n1. Minino\n2. Estrella de circo\nElige una opcion: ";
+        cin>>d;
+        if(d==1)
+        {
+            Minino.MostrarRaza();
+        }else if(d==2)
+        {
+            EstrellaCirco.MostrarRaza();
+        }
+        else
+        {
+            cout<<"\nOpcion no valida"<<endl;
+        }
+        break;
+    case 5:
+        cout<<"\nEscriba el nuevo circo de estrella de circo: ",164;
+        cin.ignore();
+        getline(cin, a);
+        EstrellaCirco.Cambiarpert(a);
+        EstrellaCirco.Mostrarcir();
+        break;
+    case 6:
+        break;
+    default:
+        cout<<"La opcion no es valida."<<endl;
+        }
+    }while(aux!=6);
+    return 0;
+}
